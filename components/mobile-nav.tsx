@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Logo } from "@/components/logo"
 import {
   Sheet,
   SheetContent,
@@ -67,8 +68,8 @@ export function MobileNav({ visibleSections, user, onSignOut }: MobileNavProps) 
       <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0" aria-describedby={undefined}>
         <SheetHeader className="border-b px-4 py-3">
           <SheetTitle asChild>
-            <Link href="/" onClick={close} className="font-semibold">
-              Mi App
+            <Link href="/" onClick={close}>
+              <Logo className="size-6" />
             </Link>
           </SheetTitle>
         </SheetHeader>

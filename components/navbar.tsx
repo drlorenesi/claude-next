@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Logo } from "@/components/logo"
 
 const navSections = [
   {
@@ -85,18 +86,9 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
         {/* Logo */}
-        <Link href="/" className="font-semibold">
-          Mi App
+        <Link href="/">
+          <Logo className="size-6" />
         </Link>
-
-        {/* Mobile nav — hamburger + Sheet drawer */}
-        {user && (
-          <MobileNav
-            visibleSections={visibleSections}
-            user={user}
-            onSignOut={handleSignOut}
-          />
-        )}
 
         {/* Nav links — hidden on mobile */}
         <nav className="hidden sm:flex items-center gap-1">
@@ -134,40 +126,51 @@ export function Navbar() {
         {/* Spacer */}
         <div className="flex-1" />
 
-        {/* Right side */}
-        <ThemeToggle />
+        {/* Right side — desktop only */}
+        <div className="hidden sm:flex items-center gap-2">
+          <ThemeToggle />
 
+          {user && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2 px-2">
+                  <Avatar size="sm">
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden max-w-35 truncate text-sm nav:block">
+                    {user.name ?? user.email}
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm leading-none font-medium">
+                      {user.name ?? "Usuario"}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
+                  <LogOut className="size-4" />
+                  Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
+
+        {/* Hamburger — mobile only */}
         {user && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 px-2">
-                <Avatar size="sm">
-                  <AvatarFallback>{initials}</AvatarFallback>
-                </Avatar>
-                <span className="hidden max-w-35 truncate text-sm nav:block">
-                  {user.name ?? user.email}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm leading-none font-medium">
-                    {user.name ?? "Usuario"}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user.email}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
-                <LogOut className="size-4" />
-                Cerrar sesión
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <MobileNav
+            visibleSections={visibleSections}
+            user={user}
+            onSignOut={handleSignOut}
+          />
         )}
       </div>
     </header>
