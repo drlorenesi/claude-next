@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, ChevronDown, LogOut } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { Menu, ChevronRight, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
@@ -30,8 +31,15 @@ type MobileNavProps = {
 }
 
 export function MobileNav({ visibleSections, user, onSignOut }: MobileNavProps) {
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(
+      visibleSections
+        .filter((s) => pathname.startsWith(s.href))
+        .map((s) => [s.href, true])
+    )
+  )
 
   function toggleSection(href: string) {
     setExpanded((prev) => ({ ...prev, [href]: !prev[href] }))
@@ -56,7 +64,7 @@ export function MobileNav({ visibleSections, user, onSignOut }: MobileNavProps) 
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
+      <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0" aria-describedby={undefined}>
         <SheetHeader className="border-b px-4 py-3">
           <SheetTitle asChild>
             <Link href="/" onClick={close} className="font-semibold">
@@ -73,28 +81,33 @@ export function MobileNav({ visibleSections, user, onSignOut }: MobileNavProps) 
 
             return (
               <div key={section.href}>
-                <button
-                  onClick={() => toggleSection(section.href)}
-                  className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
-                >
+                <div className="px-2">
+                  <button
+                    onClick={() => toggleSection(section.href)}
+                    className="flex w-full rounded-lg items-center gap-3 px-2 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+                  >
                   <Icon className="size-4 shrink-0" />
                   <span className="flex-1 text-left">{section.label}</span>
-                  <ChevronDown
+                  <ChevronRight
                     className={cn(
                       "size-4 shrink-0 opacity-60 transition-transform duration-200",
-                      isOpen && "rotate-180"
+                      isOpen && "rotate-90"
                     )}
                   />
-                </button>
+                  </button>
+                </div>
 
                 {isOpen && (
-                  <div className="pb-1">
+                  <div className="ml-6 border-l border-border pb-1">
                     {section.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
                         onClick={close}
-                        className="flex items-center py-2 pl-11 pr-4 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                        className={cn(
+                          "my-0.5 ml-2 mr-8 flex items-center rounded-md py-2 pl-3 pr-4 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+                          pathname === child.href && "bg-muted font-medium text-foreground"
+                        )}
                       >
                         {child.label}
                       </Link>

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import {
   LogOut,
   LayoutDashboard,
@@ -11,6 +11,7 @@ import {
   ChevronDown,
 } from "lucide-react"
 import { MobileNav } from "@/components/mobile-nav"
+import { cn } from "@/lib/utils"
 import { useSession, signOut } from "@/lib/auth-client"
 import { canAccess, type Role } from "@/lib/permissions"
 import { Button } from "@/components/ui/button"
@@ -65,6 +66,7 @@ const navSections = [
 export function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
+  const pathname = usePathname()
 
   const user = session?.user
   const userRole = (user?.role ?? "user") as Role
@@ -103,7 +105,11 @@ export function Navbar() {
             return (
               <DropdownMenu key={section.href}>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={cn(pathname.startsWith(section.href) && "bg-muted")}
+                  >
                     <Icon className="size-4" />
                     <span className="hidden nav:inline">{section.label}</span>
                     <ChevronDown className="size-3 opacity-60" />
@@ -111,7 +117,11 @@ export function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                   {section.children.map((child) => (
-                    <DropdownMenuItem key={child.href} asChild>
+                    <DropdownMenuItem
+                      key={child.href}
+                      asChild
+                      className={cn(pathname === child.href && "bg-muted font-medium")}
+                    >
                       <Link href={child.href}>{child.label}</Link>
                     </DropdownMenuItem>
                   ))}
