@@ -2,8 +2,17 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { LogOut, LayoutDashboard, Home } from "lucide-react"
+import {
+  LogOut,
+  LayoutDashboard,
+  Home,
+  ShoppingCart,
+  TrendingUp,
+  BarChart2,
+  ChevronDown,
+} from "lucide-react"
 import { useSession, signOut } from "@/lib/auth-client"
+import { canAccess, ROLE_LABELS, type Role } from "@/lib/permissions"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -17,23 +26,63 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
 
+const navSections = [
+  {
+    href: "/compras",
+    label: "Compras",
+    icon: ShoppingCart,
+    children: [
+      { href: "/compras/proveedores", label: "Proveedores" },
+      { href: "/compras/ordenes", label: "Órdenes de Compra" },
+    ],
+  },
+  {
+    href: "/ventas",
+    label: "Ventas",
+    icon: TrendingUp,
+    children: [
+      { href: "/ventas/categoria", label: "Categorías" },
+      { href: "/ventas/producto", label: "Productos" },
+    ],
+  },
+  {
+    href: "/reportes",
+    label: "Reportes",
+    icon: BarChart2,
+    children: [{ href: "/reportes", label: "Ver reportes" }],
+  },
+  {
+    href: "/admin",
+    label: "Administración",
+    icon: LayoutDashboard,
+    children: [
+      { href: "/admin", label: "Panel" },
+      { href: "/admin/usuarios", label: "Usuarios" },
+    ],
+  },
+]
+
 export function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
 
   const user = session?.user
-  const isAdmin = user?.role === "admin"
+  const userRole = (user?.role ?? "user") as Role
 
   const initials = user
     ? `${(user.name ?? user.email).charAt(0).toUpperCase()}`
     : "U"
+
+  const visibleSections = navSections.filter((s) =>
+    canAccess(userRole, s.href)
+  )
 
   async function handleSignOut() {
     await signOut({ fetchOptions: { onSuccess: () => router.push("/login") } })
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
         {/* Logo */}
         <Link href="/" className="font-semibold">
@@ -49,14 +98,27 @@ export function Navbar() {
             </Link>
           </Button>
 
-          {isAdmin && (
-            <Button variant="ghost" size="sm" aria-label="Administración" asChild>
-              <Link href="/admin">
-                <LayoutDashboard className="size-4" />
-                <span className="hidden sm:inline">Administración</span>
-              </Link>
-            </Button>
-          )}
+          {visibleSections.map((section) => {
+            const Icon = section.icon
+            return (
+              <DropdownMenu key={section.href}>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <Icon className="size-4" />
+                    <span className="hidden sm:inline">{section.label}</span>
+                    <ChevronDown className="size-3 opacity-60" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {section.children.map((child) => (
+                    <DropdownMenuItem key={child.href} asChild>
+                      <Link href={child.href}>{child.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )
+          })}
         </nav>
 
         {/* Spacer */}
@@ -68,19 +130,16 @@ export function Navbar() {
         {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="flex items-center gap-2 px-2"
-              >
+              <Button variant="ghost" className="flex items-center gap-2 px-2">
                 <Avatar size="sm">
                   <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
-                <span className="hidden max-w-[140px] truncate text-sm sm:block">
+                <span className="hidden max-w-35 truncate text-sm sm:block">
                   {user.name ?? user.email}
                 </span>
-                {isAdmin && (
+                {userRole !== "user" && (
                   <Badge variant="secondary" className="hidden sm:inline-flex">
-                    Admin
+                    {ROLE_LABELS[userRole]}
                   </Badge>
                 )}
               </Button>
@@ -89,19 +148,16 @@ export function Navbar() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium leading-none">
+                  <p className="text-sm leading-none font-medium">
                     {user.name ?? "Usuario"}
                   </p>
-                  <p className="text-muted-foreground text-xs leading-none">
+                  <p className="text-xs leading-none text-muted-foreground">
                     {user.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={handleSignOut}
-              >
+              <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
                 <LogOut className="size-4" />
                 Cerrar sesión
               </DropdownMenuItem>
