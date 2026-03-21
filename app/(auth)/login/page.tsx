@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { CheckCircle2, Loader2 } from "lucide-react"
 import { signIn } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -63,15 +63,18 @@ export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Iniciar sesión</CardTitle>
-        <CardDescription>
-          {verificado === "true"
-            ? "¡Correo verificado! Ya puedes iniciar sesión."
-            : "Ingresa tus credenciales para continuar."}
-        </CardDescription>
+        <CardTitle className="text-2xl font-bold tracking-tight">Iniciar sesión</CardTitle>
+        <CardDescription>Ingresa tus credenciales para continuar.</CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {verificado === "true" && (
+        <div className="mx-4 flex items-center gap-2 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
+          <CheckCircle2 className="size-4 shrink-0" />
+          ¡Correo verificado! Ya puedes iniciar sesión.
+        </div>
+      )}
+
+      <form className="contents" onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">Correo electrónico</Label>

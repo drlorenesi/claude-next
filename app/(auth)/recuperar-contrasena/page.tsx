@@ -61,7 +61,7 @@ export default function RecuperarContrasenaPage() {
     return (
       <Card className="w-full max-w-sm text-center">
         <CardHeader>
-          <CardTitle>Revisa tu correo</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">Revisa tu correo</CardTitle>
           <CardDescription>
             Si existe una cuenta con ese correo, recibirás un enlace para
             restablecer tu contraseña en los próximos minutos.
@@ -82,14 +82,14 @@ export default function RecuperarContrasenaPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Recuperar contraseña</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">Recuperar contraseña</CardTitle>
         <CardDescription>
           Ingresa tu correo y te enviaremos un enlace para restablecer tu
           contraseña.
         </CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="contents" onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">Correo electrónico</Label>

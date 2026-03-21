@@ -53,7 +53,7 @@ export default function RestablecerContrasenaPage() {
     return (
       <Card className="w-full max-w-sm text-center">
         <CardHeader>
-          <CardTitle>Enlace inválido</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">Enlace inválido</CardTitle>
           <CardDescription>
             Este enlace no es válido o ya expiró. Solicita uno nuevo desde la
             página de recuperación de contraseña.
@@ -97,13 +97,13 @@ export default function RestablecerContrasenaPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Nueva contraseña</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">Nueva contraseña</CardTitle>
         <CardDescription>
           Ingresa y confirma tu nueva contraseña.
         </CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="contents" onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password">Nueva contraseña</Label>

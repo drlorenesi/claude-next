@@ -83,13 +83,13 @@ export default function RegistroPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Crear cuenta</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">Crear cuenta</CardTitle>
         <CardDescription>
           Completa el formulario para registrarte.
         </CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="contents" onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">

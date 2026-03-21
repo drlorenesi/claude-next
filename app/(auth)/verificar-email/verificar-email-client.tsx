@@ -51,7 +51,7 @@ export function VerificarEmailClient() {
         <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10">
           <MailCheck className="text-primary size-6" />
         </div>
-        <CardTitle>Revisa tu bandeja de entrada</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">Revisa tu bandeja de entrada</CardTitle>
         <CardDescription>
           Te enviamos un enlace de verificación a tu correo electrónico. Haz
           clic en el enlace para activar tu cuenta.
