@@ -1,21 +1,22 @@
-export type Role = "admin" | "compras" | "ventas" | "user"
+export type Role = "admin" | "compras" | "ventas" | "produccion" | "user"
 
-export const ROLES: Role[] = ["admin", "compras", "ventas", "user"]
+export const ROLES: Role[] = ["admin", "compras", "ventas", "produccion", "user"]
 
 export const ROLE_LABELS: Record<Role, string> = {
-  admin:   "Administrador",
-  compras: "Compras",
-  ventas:  "Ventas",
-  user:    "Usuario",
+  admin:      "Administrador",
+  compras:    "Compras",
+  ventas:     "Ventas",
+  produccion: "Producción",
+  user:       "Usuario",
 }
 
 // Top-level sections → allowed roles.
 // Sub-routes inherit by prefix: /ventas/categoria resolves to /ventas.
 export const routePermissions: Record<string, Role[]> = {
-  "/admin":    ["admin"],
-  "/compras":  ["admin", "compras"],
-  "/ventas":   ["admin", "ventas"],
-  "/reportes": ["admin", "compras", "ventas"],
+  "/admin":      ["admin"],
+  "/compras":    ["admin", "compras"],
+  "/ventas":     ["admin", "ventas"],
+  "/produccion": ["admin", "compras", "ventas", "produccion"],
 }
 
 export function canAccess(role: string, path: string): boolean {

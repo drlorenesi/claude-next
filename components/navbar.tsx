@@ -5,16 +5,14 @@ import { useRouter } from "next/navigation"
 import {
   LogOut,
   LayoutDashboard,
-  Home,
   ShoppingCart,
   TrendingUp,
-  BarChart2,
+  Factory,
   ChevronDown,
 } from "lucide-react"
 import { useSession, signOut } from "@/lib/auth-client"
 import { canAccess, type Role } from "@/lib/permissions"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -28,15 +26,6 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 const navSections = [
   {
-    href: "/compras",
-    label: "Compras",
-    icon: ShoppingCart,
-    children: [
-      { href: "/compras/proveedores", label: "Proveedores" },
-      { href: "/compras/ordenes", label: "Órdenes de Compra" },
-    ],
-  },
-  {
     href: "/ventas",
     label: "Ventas",
     icon: TrendingUp,
@@ -46,10 +35,20 @@ const navSections = [
     ],
   },
   {
-    href: "/reportes",
-    label: "Reportes",
-    icon: BarChart2,
-    children: [{ href: "/reportes", label: "Ver reportes" }],
+    href: "/compras",
+    label: "Compras",
+    icon: ShoppingCart,
+    children: [
+      { href: "/compras/proveedores", label: "Proveedores" },
+      { href: "/compras/ordenes", label: "Órdenes de Compra" },
+    ],
+  },
+
+  {
+    href: "/produccion",
+    label: "Producción",
+    icon: Factory,
+    children: [{ href: "/produccion", label: "Ver producción" }],
   },
   {
     href: "/admin",
@@ -73,9 +72,7 @@ export function Navbar() {
     ? `${(user.name ?? user.email).charAt(0).toUpperCase()}`
     : "U"
 
-  const visibleSections = navSections.filter((s) =>
-    canAccess(userRole, s.href)
-  )
+  const visibleSections = navSections.filter((s) => canAccess(userRole, s.href))
 
   async function handleSignOut() {
     await signOut({ fetchOptions: { onSuccess: () => router.push("/login") } })
@@ -91,14 +88,7 @@ export function Navbar() {
 
         {/* Nav links */}
         <nav className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" aria-label="Inicio" asChild>
-            <Link href="/">
-              <Home className="size-4" />
-              <span className="hidden sm:inline">Inicio</span>
-            </Link>
-          </Button>
-
-          {visibleSections.map((section) => {
+{visibleSections.map((section) => {
             const Icon = section.icon
             return (
               <DropdownMenu key={section.href}>
