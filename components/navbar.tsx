@@ -12,7 +12,7 @@ import {
   ChevronDown,
 } from "lucide-react"
 import { useSession, signOut } from "@/lib/auth-client"
-import { canAccess, ROLE_LABELS, type Role } from "@/lib/permissions"
+import { canAccess, type Role } from "@/lib/permissions"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -137,11 +137,6 @@ export function Navbar() {
                 <span className="hidden max-w-35 truncate text-sm sm:block">
                   {user.name ?? user.email}
                 </span>
-                {userRole !== "user" && (
-                  <Badge variant="secondary" className="hidden sm:inline-flex">
-                    {ROLE_LABELS[userRole]}
-                  </Badge>
-                )}
               </Button>
             </DropdownMenuTrigger>
 
