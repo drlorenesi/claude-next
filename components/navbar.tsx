@@ -42,18 +42,18 @@ export function Navbar() {
 
         {/* Nav links */}
         <nav className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" asChild>
+          <Button variant="ghost" size="sm" aria-label="Inicio" asChild>
             <Link href="/">
               <Home className="size-4" />
-              Inicio
+              <span className="hidden sm:inline">Inicio</span>
             </Link>
           </Button>
 
           {isAdmin && (
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" aria-label="Administración" asChild>
               <Link href="/admin">
                 <LayoutDashboard className="size-4" />
-                Administración
+                <span className="hidden sm:inline">Administración</span>
               </Link>
             </Button>
           )}
