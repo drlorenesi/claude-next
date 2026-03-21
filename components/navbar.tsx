@@ -10,6 +10,7 @@ import {
   Factory,
   ChevronDown,
 } from "lucide-react"
+import { MobileNav } from "@/components/mobile-nav"
 import { useSession, signOut } from "@/lib/auth-client"
 import { canAccess, type Role } from "@/lib/permissions"
 import { Button } from "@/components/ui/button"
@@ -86,8 +87,17 @@ export function Navbar() {
           Mi App
         </Link>
 
-        {/* Nav links */}
-        <nav className="flex items-center gap-1">
+        {/* Mobile nav — hamburger + Sheet drawer */}
+        {user && (
+          <MobileNav
+            visibleSections={visibleSections}
+            user={user}
+            onSignOut={handleSignOut}
+          />
+        )}
+
+        {/* Nav links — hidden on mobile */}
+        <nav className="hidden sm:flex items-center gap-1">
 {visibleSections.map((section) => {
             const Icon = section.icon
             return (
@@ -95,7 +105,7 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm">
                     <Icon className="size-4" />
-                    <span className="hidden sm:inline">{section.label}</span>
+                    <span className="hidden nav:inline">{section.label}</span>
                     <ChevronDown className="size-3 opacity-60" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -124,7 +134,7 @@ export function Navbar() {
                 <Avatar size="sm">
                   <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
-                <span className="hidden max-w-35 truncate text-sm sm:block">
+                <span className="hidden max-w-35 truncate text-sm nav:block">
                   {user.name ?? user.email}
                 </span>
               </Button>
