@@ -21,7 +21,7 @@ export function UserRoleManager({ users }: { users: User[] }) {
 
   async function handleRoleChange(userId: string, role: Role) {
     setLoading(userId)
-    const { error } = await authClient.admin.setRole({ userId, role })
+    const { error } = await authClient.admin.setRole({ userId, role: role as "user" | "admin" })
     setLoading(null)
 
     if (error) {

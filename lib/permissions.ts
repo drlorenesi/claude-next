@@ -19,7 +19,7 @@ export const routePermissions: Record<string, Role[]> = {
   "/produccion": ["admin", "compras", "ventas", "produccion"],
 }
 
-export function canAccess(role: string, path: string): boolean {
+export function canAccess(role: string | null | undefined, path: string): boolean {
   for (const [pattern, roles] of Object.entries(routePermissions)) {
     if (path === pattern || path.startsWith(pattern + "/")) {
       return roles.includes(role as Role)
