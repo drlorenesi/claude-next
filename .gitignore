@@ -34,3 +34,9 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# serwist / PWA generated files
+/public/sw.js
+/public/sw.js.map
+/public/serwist-*.js
+/public/serwist-*.js.map

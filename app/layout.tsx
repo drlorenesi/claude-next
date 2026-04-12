@@ -1,5 +1,5 @@
 import { Geist_Mono, Inter } from "next/font/google"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -12,9 +12,25 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+}
+
 export const metadata: Metadata = {
   title: "Mi App",
   description: "Aplicación web",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Reportes Granada",
+  },
+  icons: {
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 }
 
 export default function RootLayout({
