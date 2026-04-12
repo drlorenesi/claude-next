@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { redirect } from "next/navigation"
 import { VerificarEmailClient } from "./verificar-email-client"
 
@@ -16,5 +17,9 @@ export default async function VerificarEmailPage({ searchParams }: Props) {
     )
   }
 
-  return <VerificarEmailClient />
+  return (
+    <Suspense fallback={null}>
+      <VerificarEmailClient />
+    </Suspense>
+  )
 }
