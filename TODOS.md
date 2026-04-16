@@ -7,10 +7,11 @@
 - Security checkup
 - Add keep me signed in check box in login screen
 - Add button to show password to user in login screen
+- Check if unauthorized user can access a route, otherwise show "No Autorizado".
+- Auto logout after a certain amount of time
 
 ## App Features
 
-- Check if unauthorized user can access a route, otherwise show "No Autorizado".
 - Add user update route/form
 - Add change password route/form
 - Add date form in spanish
@@ -19,10 +20,10 @@
 
 ## Database
 
-- Add `mysql.ts` connection module
+- Update `db.ts` connection module to be similar to `mysql.ts`
 - Check database structure
 
 ## Scripts
 
 - Check createDB script
-- Add test script for `mysql.ts` connetion module
+- Add test script for `db.ts`/`mysql.ts` connetion module
