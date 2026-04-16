@@ -5,7 +5,7 @@
 - Check if DB is offline
 - Add rate limiting
 - Security checkup
-- Add keep me signed in check box in login screen
+- Add "Keep me signed in." (in spanish) checkbox in the login form at `/login`.
 - Add button to show password to user in login screen
 - Check if unauthorized user can access a route, otherwise show "No Autorizado".
 - Auto logout after a certain amount of time
