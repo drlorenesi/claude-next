@@ -4,6 +4,12 @@ const withSerwistConfig = withSerwist({
   swSrc: "app/sw.ts",
   swDest: "public/sw.js",
   disable: process.env.NODE_ENV !== "production",
+  manifestTransforms: [
+    (entries) => ({
+      manifest: entries.filter((e) => !/\.(woff2?|ttf|eot|otf)(\?.*)?$/.test(e.url)),
+      warnings: [],
+    }),
+  ],
 })
 
 const securityHeaders = [

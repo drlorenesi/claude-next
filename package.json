@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "predev": "node -e \"require('fs').writeFileSync('public/sw.js', 'self.addEventListener(\\'install\\',()=>self.skipWaiting());self.addEventListener(\\'activate\\',()=>{self.registration.unregister();self.clients.matchAll().then(cs=>cs.forEach(c=>c.navigate(c.url)));});')\"",
     "dev": "next dev --turbopack",
     "build": "next build --webpack",
     "start": "next start",

@@ -3,17 +3,10 @@
 ## General
 
 - Check if DB is offline
-- Add rate limiting
 - Security checkup
 - Check if unauthorized user can access a route, otherwise show "No Autorizado".
 - Auto logout after a certain amount of time
-- Add change password route/form
-
-## App Features
-
-- Add user update route/form
 - Add date form in spanish
-- Work on `proxy.ts` to re-route user depending on session status
 - Integrate e-mail service to send verification link and password reset
 
 ## Database

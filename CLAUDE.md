@@ -37,7 +37,7 @@ Full-stack business management app (Spanish-language) for Chocolates Granada. Bu
 
 ### Key Library Files
 
-- `lib/auth.ts` — Better Auth server: email/password + admin plugin, uses MySQL pool, requires email verification before login
+- `lib/auth.ts` — Better Auth server: email/password + admin plugin, uses `lib/db.ts`, requires email verification before login
 - `lib/auth-client.ts` — Better Auth React client: exports `signIn`, `signUp`, `signOut`, `useSession`, `requestPasswordReset`, `resetPassword`, `sendVerificationEmail`
 - `lib/mysql.ts` — MySQL2 connection pool with graceful shutdown; 3 connections dev / 10 prod; reused across HMR
 - `lib/permissions.ts` — RBAC with `canAccess(role, path)` using prefix matching
@@ -93,6 +93,7 @@ SMTP_FROM=
 ## Important Notes
 
 - The app is fully Spanish-localized: UI, emails, error messages, and form labels
+- Next.js 16 uses `proxy.ts` (not `middleware.ts`) for request interception and routing middleware — never suggest `middleware.ts`
 - Better Auth is used exclusively for auth and security. The database is hosted on https://neon.com/
 - The Better Auth schema is defined in `db/schema_pg.sql` — no migration tool is configured. All changes to the database should be done using SQL
 - Custom user fields: `firstName`, `lastName` (set at registration, stored by Better Auth)
