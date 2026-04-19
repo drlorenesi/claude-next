@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, ChevronRight, LogOut } from "lucide-react"
+import { Menu, ChevronRight, LogOut, UserCircle, KeyRound } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
@@ -142,6 +142,21 @@ export function MobileNav({ visibleSections, user, onSignOut }: MobileNavProps) 
                   {user.email}
                 </p>
               </div>
+            </div>
+
+            <div className="mb-2 flex flex-col gap-1">
+              <Button variant="ghost" size="sm" className="w-full justify-start gap-2" asChild>
+                <Link href="/perfil" onClick={close}>
+                  <UserCircle className="size-4" />
+                  Mi Perfil
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="w-full justify-start gap-2" asChild>
+                <Link href="/cambiar-contrasena" onClick={close}>
+                  <KeyRound className="size-4" />
+                  Cambiar Contraseña
+                </Link>
+              </Button>
             </div>
 
             <Button

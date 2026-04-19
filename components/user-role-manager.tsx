@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
 import { ROLES, ROLE_LABELS, type Role } from "@/lib/permissions"
 import { Badge } from "@/components/ui/badge"
+import { ChevronDown } from "lucide-react"
 import { toast } from "sonner"
 
 type User = {
@@ -61,20 +62,23 @@ export function UserRoleManager({ users }: { users: User[] }) {
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  <select
-                    value={currentRole}
-                    onChange={(e) =>
-                      handleRoleChange(user.id, e.target.value as Role)
-                    }
-                    disabled={loading === user.id}
-                    className="h-9 w-40 rounded-md border border-input bg-background px-3 text-sm disabled:opacity-50"
-                  >
-                    {ROLES.map((role) => (
-                      <option key={role} value={role}>
-                        {ROLE_LABELS[role]}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative w-40">
+                    <select
+                      value={currentRole}
+                      onChange={(e) =>
+                        handleRoleChange(user.id, e.target.value as Role)
+                      }
+                      disabled={loading === user.id}
+                      className="h-9 w-full appearance-none rounded-md border border-input bg-background pl-3 pr-8 text-sm disabled:opacity-50"
+                    >
+                      {ROLES.map((role) => (
+                        <option key={role} value={role}>
+                          {ROLE_LABELS[role]}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 opacity-50" />
+                  </div>
                 </td>
               </tr>
             )

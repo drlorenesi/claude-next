@@ -5,7 +5,6 @@
 - Check if DB is offline
 - Add rate limiting
 - Security checkup
-- Add button to show password to user in login screen
 - Check if unauthorized user can access a route, otherwise show "No Autorizado".
 - Auto logout after a certain amount of time
 - Add change password route/form

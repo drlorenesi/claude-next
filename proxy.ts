@@ -9,8 +9,6 @@ const AUTH_PATHS = [
   "/restablecer-contrasena",
 ]
 
-// Public paths that don't require authentication
-const PUBLIC_PATHS = [...AUTH_PATHS, "/api"]
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -42,7 +40,10 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 
-  return NextResponse.next()
+  // Forward pathname so server layouts can perform RBAC checks
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-pathname", pathname)
+  return NextResponse.next({ request: { headers: requestHeaders } })
 }
 
 export const config = {

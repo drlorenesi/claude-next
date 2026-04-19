@@ -13,6 +13,27 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL!, ...extraOrigins],
 
+  rateLimit: {
+    enabled: true,
+    storage: "database",
+    window: 60,
+    max: 100,
+    customRules: {
+      "/sign-in/email":   { window: 60, max: 5 },
+      "/sign-up/email":   { window: 60, max: 3 },
+      "/forget-password": { window: 60, max: 3 },
+    },
+  },
+
+  session: {
+    expiresIn: 60 * 60 * 8,
+    updateAge: 60 * 60,
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 5,
+    },
+  },
+
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

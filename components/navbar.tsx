@@ -9,6 +9,8 @@ import {
   TrendingUp,
   Factory,
   ChevronDown,
+  UserCircle,
+  KeyRound,
 } from "lucide-react"
 import { MobileNav } from "@/components/mobile-nav"
 import { cn } from "@/lib/utils"
@@ -107,7 +109,7 @@ export function Navbar() {
                     <ChevronDown className="size-3 opacity-60" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
+                <DropdownMenuContent align="start" className="flex flex-col gap-1">
                   {section.children.map((child) => (
                     <DropdownMenuItem
                       key={child.href}
@@ -154,6 +156,19 @@ export function Navbar() {
                     </p>
                   </div>
                 </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/perfil">
+                    <UserCircle className="size-4" />
+                    Mi Perfil
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/cambiar-contrasena">
+                    <KeyRound className="size-4" />
+                    Cambiar Contraseña
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
                   <LogOut className="size-4" />
