@@ -1,11 +1,12 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
+import { getSession } from "@/lib/session"
 import { Badge } from "@/components/ui/badge"
 import { UserRoleManager } from "@/components/user-role-manager"
 
 export default async function UsuariosPage() {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const [session, headersList] = await Promise.all([getSession(), headers()])
   const user = session!.user
 
   if (user.role !== "admin") {
@@ -14,7 +15,7 @@ export default async function UsuariosPage() {
 
   const { users } = await auth.api.listUsers({
     query: { limit: 100, sortBy: "createdAt", sortDirection: "desc" },
-    headers: await headers(),
+    headers: headersList,
   })
 
   return (

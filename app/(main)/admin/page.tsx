@@ -1,12 +1,11 @@
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { auth } from "@/lib/auth"
+import { getSession } from "@/lib/session"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function AdminPage() {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getSession()
   const user = session!.user
 
   // Role check — only admins can access this page

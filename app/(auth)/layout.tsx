@@ -1,5 +1,10 @@
+import type { Metadata } from "next"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "sonner"
+
+export const metadata: Metadata = {
+  robots: { index: false },
+}
 
 export default function AuthLayout({
   children,

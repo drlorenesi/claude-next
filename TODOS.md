@@ -2,7 +2,7 @@
 
 ## General
 
-- Check if DB is offline
+- Check if App/DB is offline
 - Security checkup
 - Check if unauthorized user can access a route, otherwise show "No Autorizado".
 - Auto logout after a certain amount of time

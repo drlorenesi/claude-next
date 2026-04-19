@@ -1,6 +1,6 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { auth } from "@/lib/auth"
+import { getSession } from "@/lib/session"
 import { canAccess } from "@/lib/permissions"
 import { Navbar } from "@/components/navbar"
 import { Toaster } from "sonner"
@@ -10,13 +10,13 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode
 }) {
-  const headersList = await headers()
-  const session = await auth.api.getSession({ headers: headersList })
+  const session = await getSession()
 
   if (!session) {
     redirect("/login")
   }
 
+  const headersList = await headers()
   const pathname = headersList.get("x-pathname") ?? "/"
 
   if (!canAccess(session.user.role, pathname)) {
