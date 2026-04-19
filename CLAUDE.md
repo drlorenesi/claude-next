@@ -22,7 +22,7 @@ npm run db:check-mysql  # Verify MySQL connection and pool (scripts/check-mysql.
 
 ## Architecture
 
-Full-stack business management app (Spanish-language) for Chocolates Granada. Built with Next.js 16 App Router, Better Auth, MySQL, and shadcn/ui.
+Full-stack business management app (Spanish-language) for Chocolates Granada. Built with Next.js 16 App Router, Better Auth for authentication and security, MySQL to access the business database, and shadcn/ui.
 
 ### Route Groups
 
@@ -45,13 +45,13 @@ Full-stack business management app (Spanish-language) for Chocolates Granada. Bu
 
 ### RBAC Roles
 
-| Role | Access |
-|------|--------|
-| `admin` | All routes |
-| `compras` | `/compras`, `/produccion` |
-| `ventas` | `/ventas`, `/produccion` |
-| `produccion` | `/produccion` |
-| `user` | Dashboard only (no module access) |
+| Role         | Access                            |
+| ------------ | --------------------------------- |
+| `admin`      | All routes                        |
+| `compras`    | `/compras`, `/produccion`         |
+| `ventas`     | `/ventas`, `/produccion`          |
+| `produccion` | `/produccion`                     |
+| `user`       | Dashboard only (no module access) |
 
 ### UI Stack
 
@@ -93,7 +93,8 @@ SMTP_FROM=
 ## Important Notes
 
 - The app is fully Spanish-localized: UI, emails, error messages, and form labels
-- Better Auth manages its own schema automatically — no migration tool is configured; MySQL tables are created on first run
-- The PostgreSQL schema in `db/schema_pg.sql` is legacy; MySQL is the active database
+- Better Auth is used exclusively for auth and security. The database is hosted on https://neon.com/
+- The Better Auth schema is defined in `db/schema_pg.sql` — no migration tool is configured. All changes to the database should be done using SQL
 - Custom user fields: `firstName`, `lastName` (set at registration, stored by Better Auth)
 - Auto sign-in after email verification is **disabled** — users must log in manually after verifying
+- The MySQL connection module in `lib/mysql.ts` is used to access the business database

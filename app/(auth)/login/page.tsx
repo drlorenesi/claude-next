@@ -11,6 +11,7 @@ import { CheckCircle2, Loader2 } from "lucide-react"
 import { signIn } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import {
   Card,
@@ -35,6 +36,7 @@ function LoginForm() {
   const verificado = searchParams.get("verificado")
 
   const [isLoading, setIsLoading] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
 
   const {
     register,
@@ -45,7 +47,7 @@ function LoginForm() {
   async function onSubmit(data: FormData) {
     setIsLoading(true)
     await signIn.email(
-      { email: data.email, password: data.password },
+      { email: data.email, password: data.password, rememberMe },
       {
         onSuccess: () => router.push(redirect),
         onError: ({ error }) => {
@@ -63,8 +65,12 @@ function LoginForm() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold tracking-tight">Iniciar sesión</CardTitle>
-        <CardDescription>Ingresa tus credenciales para continuar.</CardDescription>
+        <CardTitle className="text-2xl font-bold tracking-tight">
+          Iniciar sesión
+        </CardTitle>
+        <CardDescription>
+          Ingresa tus credenciales para continuar.
+        </CardDescription>
       </CardHeader>
 
       {verificado === "true" && (
@@ -86,7 +92,7 @@ function LoginForm() {
               {...register("email")}
             />
             {errors.email && (
-              <p className="text-destructive text-xs">{errors.email.message}</p>
+              <p className="text-xs text-destructive">{errors.email.message}</p>
             )}
           </div>
 
@@ -95,22 +101,33 @@ function LoginForm() {
               <Label htmlFor="password">Contraseña</Label>
               <Link
                 href="/recuperar-contrasena"
-                className="text-muted-foreground hover:text-foreground text-xs underline-offset-4 hover:underline"
+                className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               autoComplete="current-password"
               {...register("password")}
             />
             {errors.password && (
-              <p className="text-destructive text-xs">
+              <p className="text-xs text-destructive">
                 {errors.password.message}
               </p>
             )}
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              id="rememberMe"
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 cursor-pointer rounded border-gray-300 accent-primary"
+            />
+            <Label htmlFor="rememberMe" className="cursor-pointer font-normal">
+              No cerrar sesión.
+            </Label>
           </div>
         </CardContent>
 
@@ -120,7 +137,7 @@ function LoginForm() {
             Iniciar sesión
           </Button>
 
-          <p className="text-muted-foreground text-center text-sm">
+          <p className="text-center text-sm text-muted-foreground">
             ¿No tienes cuenta?{" "}
             <Link
               href="/registro"
