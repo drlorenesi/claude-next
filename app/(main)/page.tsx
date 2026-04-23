@@ -1,10 +1,12 @@
 import { getSession } from "@/lib/session"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { redirect } from "next/navigation"
 
 export default async function DashboardPage() {
   const session = await getSession()
-  const user = session!.user
+  if (!session) redirect('/login')
+  const user = session.user
 
   const isAdmin = user.role === "admin"
   const greeting = user.name ? `¡Hola, ${user.name.split(" ")[0]}!` : "¡Bienvenido!"

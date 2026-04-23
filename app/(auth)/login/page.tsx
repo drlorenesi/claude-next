@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { CheckCircle2, Loader2 } from "lucide-react"
+import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react"
 import { signIn } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -34,6 +34,8 @@ function LoginForm() {
   const searchParams = useSearchParams()
   const redirect = searchParams.get("redirect") ?? "/"
   const verificado = searchParams.get("verificado")
+
+  const expirado = searchParams.get("expirado")
 
   const [isLoading, setIsLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
@@ -77,6 +79,13 @@ function LoginForm() {
         <div className="mx-4 flex items-center gap-2 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
           <CheckCircle2 className="size-4 shrink-0" />
           ¡Correo verificado! Ya puedes iniciar sesión.
+        </div>
+      )}
+
+      {expirado === "true" && (
+        <div className="mx-4 flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+          <AlertCircle className="size-4 shrink-0" />
+          Tu sesión se cerró por inactividad.
         </div>
       )}
 
@@ -126,7 +135,7 @@ function LoginForm() {
               className="h-4 w-4 cursor-pointer rounded border-gray-300 accent-primary"
             />
             <Label htmlFor="rememberMe" className="cursor-pointer font-normal">
-              No cerrar sesión.
+              Recordar mis credenciales
             </Label>
           </div>
         </CardContent>

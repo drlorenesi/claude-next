@@ -1,8 +1,13 @@
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { SearchX } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
+  const router = useRouter()
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 text-center">
       <SearchX className="size-16 text-muted-foreground" />
@@ -13,9 +18,14 @@ export default function NotFound() {
           La página que buscás no existe o fue movida.
         </p>
       </div>
-      <Button asChild>
-        <Link href="/">Volver al inicio</Link>
-      </Button>
+      <div className="flex gap-3">
+        <Button variant="outline" onClick={() => router.back()}>
+          Atrás
+        </Button>
+        <Button asChild>
+          <Link href="/">Volver al inicio</Link>
+        </Button>
+      </div>
     </div>
   )
 }

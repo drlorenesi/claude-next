@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { getSession } from "@/lib/session"
 import { canAccess } from "@/lib/permissions"
 import { Navbar } from "@/components/navbar"
+import { IdleTimeoutProvider } from "@/components/idle-timeout-provider"
 import { Toaster } from "sonner"
 
 export default async function MainLayout({
@@ -26,6 +27,7 @@ export default async function MainLayout({
   return (
     <>
       <Navbar />
+      <IdleTimeoutProvider />
       <main className="mx-auto max-w-6xl px-4 py-6 sm:py-8">{children}</main>
       <Toaster richColors position="top-right" />
     </>
